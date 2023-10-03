@@ -1,0 +1,70 @@
+.city-name {
+    color: black;
+    font-size: 30px;
+    font-family: Heebo;
+    font-weight: 700;
+    word-wrap: break-word;
+    font-family: "Heebo-Bold", Helvetica;
+    position: relative;
+    text-align: right;
+    left: -20px;
+}
+
+.weather-card {
+    background-color: #ffffff;
+    height: 250px;
+    position: relative;
+    max-width: 365px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.label-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-family: "Heebo-Regular", Helvetica;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.text-center {
+    direction: ltr !important;
+}
+
+.text {
+    color: #000000;
+    font-size: 23px;
+    font-family: "Heebo-Regular", Helvetica;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.condition {
+    color: #8f8f8f;
+    direction: rtl;
+    font-family: "Heebo-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+    position: relative;
+    text-align: right;
+    top: 10px;
+    right: 22px;
+}
+
+.image {
+    height: 41px;
+    left: 23px;
+    position: absolute;
+    top: 19px;
+    width: 44px;
+}
