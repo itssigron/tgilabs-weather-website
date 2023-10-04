@@ -29,7 +29,8 @@ class App extends Component {
         currentUser: user
       });
     }
-    else {
+    // Only if an access token exists but invalid
+    else if (user === null) {
       this.logOut();
     }
   }
