@@ -11,13 +11,15 @@ import {
     Param,
     Get
 } from '@nestjs/common';
-import { CookieOptions, Response } from 'express';
+import { Response } from 'express';
 import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { ResetPasswordGuard } from 'src/token/reset-password.guard';
 import { ResetPasswordDto } from 'src/token/token.service';
 import { AppConfigService } from 'src/config/config.service';
+import { AccessTokenGuard } from './access-token.guard';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -64,6 +66,15 @@ export class AuthController {
 
         // Return a response containing the user data
         res.status(HttpStatus.CREATED).json({ ...userData })
+    }
+
+    // POST /auth/logout handler
+    @Post('logout')
+    @UseGuards(JwtAuthGuard, AccessTokenGuard) // Only allow authenticated users to access this endpoint
+    async logout(@Req() req, @Res() res: Response) {
+        // Remove the access token from both database and user cookiess
+        await this.authService.logout(req.cookies['access_token']);
+        res.clearCookie("access_token").status(HttpStatus.NO_CONTENT);
     }
 
     // POST /auth/request-password-reset handler
