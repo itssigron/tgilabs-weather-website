@@ -11,6 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 import { MailModule } from '../mail/mail.module';
 import { TokenService } from 'src/token/token.service';
 import { PasswordResetRequest } from 'src/token/password-reset-request.entity';
+import { AccessToken } from './access-token.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { PasswordResetRequest } from 'src/token/password-reset-request.entity';
       inject: [AppConfigService],
       extraProviders: [AppConfigService],
     }),
-    TypeOrmModule.forFeature([User, PasswordResetRequest]),
+    TypeOrmModule.forFeature([User, PasswordResetRequest, AccessToken]),
     PassportModule,
     MailModule,
     JwtModule.registerAsync({
