@@ -10,6 +10,7 @@ import {
 import { AppService } from './app.service';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { AccessTokenGuard } from './auth/access-token.guard';
 
 @Controller()
 export class AppController {
@@ -19,7 +20,7 @@ export class AppController {
 
   // GET /weather handler
   @Get('weather')
-  @UseGuards(JwtAuthGuard) // Only allow logged users to access this endpoint
+  @UseGuards(JwtAuthGuard, AccessTokenGuard) // Only allow authenticated users to access this endpoint
   @UseInterceptors(CacheInterceptor) // Auto-cache weather data
   @CacheTTL(1000 * 60 * 5) // Cache for 5 minutes
   async getWeather(@Query('city') city: string) {
