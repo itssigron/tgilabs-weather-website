@@ -112,9 +112,9 @@ button:focus {
   font-size: 25px;
   color: red;
   z-index: 10;
-  position: relative;
-  top: 3px;
-  left: 15px;
+  position: absolute;
+  top: -5px;
+  left: 1px;
 }
 
 .form-control {

@@ -194,7 +194,6 @@ class ResetPasswordComponent extends Component {
                                                 <Input
                                                     type="password"
                                                     name="password"
-                                                    className="input-group"
                                                     placeholder="New Password"
                                                     validator={this.validate}
                                                     onBlur={() => this.setState({ focused: false })}
@@ -211,7 +210,6 @@ class ResetPasswordComponent extends Component {
                                                 <Input
                                                     type="password"
                                                     name="confirmPassword"
-                                                    className="input-group"
                                                     placeholder="Confirm Password"
                                                     validator={this.validate}
                                                     onBlur={() => this.setState({ focused: false })}

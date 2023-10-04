@@ -109,8 +109,8 @@ export function Input({ type, className, name, value, id, placeholder, onChange,
   let [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className={"mb-3 " + (className || "")}>
-      {required && <span className='asterisk'>⃰</span>}
+    <div className={"mb-3 input-group " + (className || "")}>
+      {required && <span className='asterisk'>*</span>}
       <input
         id={id}
         type={originalType === "password" ? (showPassword ? "text" : "password") : type}

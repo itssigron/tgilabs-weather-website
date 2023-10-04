@@ -166,7 +166,6 @@ class Register extends Component {
                         <Input
                           type="password"
                           name="password"
-                          className="input-group"
                           placeholder="Password"
                           validator={this.validate}
                           onBlur={() => this.setState({ focused: false })}
