@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from './../mail/mail.service';
 import { ResetPasswordDto, TokenService } from 'src/token/token.service';
+import { AccessToken } from './access-token.entity';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,9 @@ export class AuthService {
         private mailService: MailService,
         private tokenService: TokenService,
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        private readonly userRepository: Repository<User>,
+        @InjectRepository(AccessToken)
+        private readonly accessTokenRepository: Repository<AccessToken>
     ) { }
 
     async create(user: Partial<User>): Promise<User> {
@@ -72,13 +75,28 @@ export class AuthService {
         return user;
     }
 
+    async validateAccessToken(accessToken: string) {
+        const accessTokenEntity = await this.accessTokenRepository.findOne({ where: { token: accessToken }, relations: ["user"] });
+        return accessTokenEntity?.user;
+    }
+
     async login(user: User) {
         const payload = { username: user.username, sub: user.id };
+        const accessToken = await this.accessTokenRepository.save(
+            this.accessTokenRepository.create({
+                userId: user.id,
+                token: this.jwtService.sign(payload)
+            }));
+
         return {
             id: user.id,
             username: user.username,
-            access_token: this.jwtService.sign(payload),
+            access_token: accessToken.token
         };
+    }
+
+    async logout(accessToken: string) {
+        await this.accessTokenRepository.delete({ token: accessToken })
     }
 
     async requestPasswordReset(email: string, clientUrl: string) {
@@ -97,10 +115,6 @@ export class AuthService {
         if (!resetPasswordDto.password) {
             throw new BadRequestException("Password is a required field.")
         }
-
-        // if (resetPasswordDto.password != resetPasswordDto.confirmPassword) {
-        //     throw new BadRequestException("Passwords don't match.");
-        // }
 
         // Find the user by email
         let passwordResetRequest = await this.tokenService.findOneByToken(resetPasswordDto.token);
